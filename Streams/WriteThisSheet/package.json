@@ -1,0 +1,12 @@
+{
+  "name": "write-this-sheet",
+  "version": "0.0.0",
+  "description": "WriteThisSheet",
+  "main": "app.js",
+  "author": {
+    "name": "Kosorotova"
+  },
+  "dependencies": {
+    "node": "^17.0.1"
+  }
+}

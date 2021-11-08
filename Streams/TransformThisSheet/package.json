@@ -1,0 +1,12 @@
+{
+  "name": "transform-this-sheet",
+  "version": "0.0.0",
+  "description": "TransformThisSheet",
+  "main": "app.js",
+  "author": {
+    "name": "Kosorotova"
+  },
+  "dependencies": {
+    "node": "^17.0.1"
+  }
+}

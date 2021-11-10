@@ -1,0 +1,29 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+main{
+  margin: 120px;
+}
+
+.preview{
+  height: 200px;
+}
+
+form{
+  padding: auto;
+  width: max-content;
+}
+
+  form.btn{
+    padding: 5px;
+  }
+
+.form-control{
+  margin: 10px;
+}
+
+td.preview{
+  text-align-last: center;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "request",
+  "version": "0.0.0",
+  "description": "Request",
+  "main": "app.js",
+  "author": {
+    "name": "Kosorotova"
+  },
+  "dependencies": {
+    "node": "^17.0.1"
+  }
+}

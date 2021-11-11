@@ -1,0 +1,12 @@
+{
+  "name": "blr-all_movingaverage",
+  "version": "0.0.0",
+  "description": "BLR-all_MovingAverage",
+  "main": "app.js",
+  "author": {
+    "name": "Kosorotova"
+  },
+  "dependencies": {
+    "node": "^17.0.1"
+  }
+}

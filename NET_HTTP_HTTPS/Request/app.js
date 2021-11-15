@@ -1,18 +1,21 @@
-const url = require('url');
-const req = require('./httpPromise');
+const Module = require('./module/module');
 
-var optionsGetCurrencies = {
-  host: 'www.nbrb.by',
-  path: '/api/exrates/currencies/1',
-  method: 'GET'
-};
-
-req.get(optionsGetCurrencies)
+Module.get('http://httpbin.org/get')
   .then((res) => { console.log(res) })
   .catch((err) => { console.error(err) });
 
-/*
-req.post(optionsGetCurrencies)
-  .then((res) => { console.log(res)})
-  .catch((err)=>{console.error(err)});
-  */
+Module.post('http://httpbin.org/post')
+  .then((res) => { console.log(res) })
+  .catch((err) => { console.error(err) });
+
+
+Module.get('https://reqres.in/api/users/2')
+  .then((res) => { console.log(res) })
+  .catch((err) => { console.error(err) });
+
+Module.post('https://reqres.in/api/users', {
+  "name": "morpheus",
+  "job": "leader"
+})
+  .then((res) => { console.log(res) })
+  .catch((err) => { console.error(err) });

@@ -1,22 +1,5 @@
-const fs = require('fs');
-const { Transform } = require('stream');
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const { transformFile } = require('./module/file');
+const { inputName } = require('./module/input');
 
-readline.question('File name: ', name =>
-{
-    let readStream = fs.createReadStream(`./${name}`);
-    let writestream = fs.createWriteStream(`Output_${name}`);
-    let transformStream = new Transform({
-        transform: (data, encoding, callback) => {
-            data = data.toString().replace(/р/g, "").replace(/Р/g, "");
-            callback(null, data);
-        }
-    });
-
-    readStream.pipe(transformStream).pipe(writestream);
-
-    readline.close();
-});
+setTimeout(inputName, 3000);
+transformFile('Karl_Marx-Das_Kapital.txt');

@@ -7,9 +7,6 @@
     "name": "Kosorotova"
   },
   "dependencies": {
-    "fstream": "^1.0.12",
-    "node": "^17.0.1",
-    "node-gzip": "^1.1.2",
-    "tar": "^6.1.11"
+    "node": "^17.0.1"
   }
 }

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <main>
+    <div id="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header" id="headingAdd">
+          <button class="accordion-button <%= (alert !== undefined && alert.length > 0 ? '' : 'collapsed') %>"
+            type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdd" aria-expanded="true"
+            aria-controls="collapseAdd">
+            Создать книгу
+          </button>
+        </div>
+
+        <div id="collapseAdd"
+          class="accordion-collapse collapse <%= (alert !== undefined && alert.length > 0 ? 'show' : '') %>"
+          aria-labelledby="headingAdd" data-parent="#accordion">
+          <div class="accordion-body">
+            <% if (alert !==undefined && alert.length> 0) { %>
+              <% alert.forEach((error) => { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <%= error.msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% }) %>
+                  <% } %>
+
+          <% let params={ author: "" , name: "" , annotation: "" , genres: [], isTranslated: false,
+            authorOriginal: "" , nameOriginal: "" , isOnlyReadingRoom: false }; if(input !==undefined) {
+            params={ author: input.author, name: input.name, annotation: input.annotation, genres:
+            input.genres, isTranslated: input.isTranslated, authorOriginal: input.authorOriginal,
+            nameOriginal: input.nameOriginal, isOnlyReadingRoom: input.isOnlyReadingRoom }; }%>
+
+            <form action="/api/books/create" method="POST">
+              <div class="mb-3">
+                <label for="author" class="form-label">Автор</label>
+                <input type="text" class="form-control" name="author" value="<%= params.author %>" id="author"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="name" class="form-label">Название</label>
+                <input type="text" class="form-control" name="name" value="<%= params.name %>" id="name"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="annotation" class="form-label">Аннотация</label>
+                <textarea type="text" class="form-control" onkeyup="updateAnnotation(this)"
+                  id="annotationTextArea"
+                  required><%= params.annotation.replace(/\<br \/\>/g, '\r\n') %></textarea>
+                <input type="text" class="form-control" name="annotation" value='<%= params.annotation %>'
+                  id="annotation" hidden>
+              </div>
+              <div class="mb-3">
+                <label for="genres" class="form-label">Жанры</label>
+                <select class="form-control" name="genres" id="genres" multiple required>
+                  <% genres.forEach(function(genre) { %>
+                    <option value="<%= genre.id %>" <%=(params.genres.includes(genre.id.toString())
+                      ? 'selected' : '' ) %>>
+                      <%= genre.genre %>
+                    </option>
+                    <% }); %>
+                </select>
+              </div>
+              <div class="mb-3 form-check">
+                <input class="form-check-input" type="checkbox" onchange="selectTransleted(this)"
+                  id="isTranslated" name="isTranslated" <%=((params.isTranslated) ? 'checked' : '' ) %>>
+                <label class="form-check-label" for="isTranslated">
+                  Переводная книга
+                </label>
+              </div>
+              <div class="mb-3">
+                <label for="authorOriginal" class="form-label">Автор на языке оригинала</label>
+                <input type="text" class="form-control" name="authorOriginal" id="authorOriginal"
+                  value="<%= params.authorOriginal %>" <%=(params.authorOriginal==='' && !params.isTranslated
+                  ? 'disabled' : '' ) %>>
+              </div>
+              <div class="mb-3">
+                <label for="nameOriginal" class="form-label">Название на языке оригинала</label>
+                <input type="text" class="form-control" name="nameOriginal" id="nameOriginal"
+                  value="<%= params.nameOriginal %>" <%=(params.nameOriginal==='' && !params.isTranslated
+                  ? 'disabled' : '' ) %>>
+              </div>
+              <div class="mb-3 form-check">
+                <input class="form-check-input" type="checkbox" <%=(params.isOnlyReadingRoom ? 'checked' : ''
+                  ) %> id="isOnlyReadingRoom" name="isOnlyReadingRoom">
+                <label for="isOnlyReadingRoom" class="form-check-label">Tолько для чтения в читальном
+                  зале</label>
+              </div>
+              <button type="submit" class="btn btn-secondary">Создать</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if(books.length !==0) { %>
+      <table class="table table-striped">
+        <thead>
+          <div class="mb-3">
+            <tr>
+              <th class="td-center" scope="col">#</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Название</th>
+              <th scope="col">Аннотация</th>
+              <th scope="col">Жанр</th>
+              <th scope="col">Только для чтения в читальном зале</th>
+              <th scope="col">Удалить</th>
+            </tr>
+          </div>
+          </div>
+        </thead>
+        <tbody>
+          <% let i=1 %>
+            <% books.forEach(function(book) { %>
+              <tr>
+                <td class="td-center">
+                  <%= i++ %>
+                </td>
+                <td>
+                  <%= book.author %><br />
+                    <span class="fst-italic">
+                      <%= book.isTranslated ? book.authorOriginal : '' %>
+                    </span>
+                </td>
+                <td>
+                  <%= book.name %><br />
+                    <span class="fst-italic">
+                      <%= book.isTranslated ? book.nameOriginal : '' %>
+                    </span>
+                </td>
+                <td>
+                  <div>
+                    <%- book.annotation %>
+                  </div>
+                </td>
+                <td>
+                  <% let genresStr='' ; 
+                  let genresList=bookGenres.filter(x=> x.bookId === book.id);
+                    genresList.forEach((bookGenre, index) => {
+                      genresStr = genresStr + (index !==0 ? ', ' : '' ) +
+                      genres.find(x=> x.id === bookGenre.genreId).genre;
+                    }); %>
+                    <span class="text-lowercase">
+                      <%= genresStr %>
+                    </span>
+                </td>
+                <td class="td-center">
+                  <i class="bi <%= book.isOnlyReadingRoom ? 'bi-plus-lg' : 'bi-dash-lg' %>"></i>
+                </td>
+                <td>
+                  <a href="/api/books/<%= book.id %>?_method=DELETE" class="btn btn-outline-secondary">Удалить</a>
+                </td>
+              </tr>
+              <% }); } else { %>
+                <div class="my-5 text-center">Нет книг</div>
+                <% } %>
+        </tbody>
+      </table>
+  </main>
+</body>
+
+</html>

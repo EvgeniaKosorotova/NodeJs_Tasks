@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%- include('partials/head'); %>
+</head>
+
+<body>
+	<main>
+		<div class="login">
+			<% if(alert !== undefined && alert.length> 0) { %>
+				<% alert.forEach(function(error) { %>
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+						<%= error.msg %>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				<% }) %>
+			<% } %>
+
+			<% let params = { 
+				firstName: "" , 
+				lastName: "" , 
+				password: "" 
+			}; 
+			
+			if(input !== undefined) {
+				params = {
+					firstName: input.firstName,
+					lastName: input.lastName,
+					password: input.password
+				};
+			}%>
+			<form action="api/users/authenticate" method="POST" class="form-login">
+				<div class="mb-3">
+					<label for="firstName" class="form-label">Имя</label>
+					<input type="firstName" class="form-control" id="firstName" name="firstName"
+						value="<%= params.firstName %>" required>
+				</div>
+				<div class="mb-3">
+					<label for="lastName" class="form-label">Фамилия</label>
+					<input type="lastName" class="form-control" id="lastName" name="lastName"
+						value="<%= params.lastName %>" required>
+				</div>
+				<div class="mb-3">
+					<label for="password" class="form-label">Пароль</label>
+					<input type="password" class="form-control" id="password" name="password"
+						value="<%= params.password %>" required>
+				</div>
+				<button type="submit" class="btn btn-secondary">Войти</button>
+			</form>
+		</div>
+	</main>
+</body>
+
+</html>

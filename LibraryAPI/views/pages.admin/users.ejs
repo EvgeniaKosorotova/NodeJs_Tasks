@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<%- include('../partials/head'); %>
+</head>
+<body>
+	<header>
+		<%- include('../partials/header'); %>
+	</header>
+	<main>
+		<div id="accordion">
+			<div class="accordion-item">
+				<div class="accordion-header" id="headingRegister">
+					<button class="accordion-button btn-light <%= (alert !== undefined && alert.length > 0 ? '' : 'collapsed') %>"
+						type="button" data-bs-toggle="collapse" data-bs-target="#collapseRegister" aria-expanded="true"
+						aria-controls="collapseRegister">
+						Создать пользователя
+					</button>
+				</div>
+
+				<div id="collapseRegister"
+					class="accordion-collapse collapse <%= (alert !== undefined && alert.length > 0 ? 'show' : '') %>"
+					aria-labelledby="headingRegister" data-parent="#accordion">
+					<div class="accordion-body">
+						<% if(alert !==undefined && alert.length> 0) { %>
+							<% alert.forEach(function(error) { %>
+								<div class="alert alert-warning alert-dismissible fade show" role="alert">
+									<%= error.msg %>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								<% }) %>
+									<% } %>
+
+					<% let params={ firstName: "" , lastName: "" , address: "" , roleId: 1, password: "" ,
+						confirmPassword: "" }; if(input !==undefined) { params={ firstName: input.firstName, lastName:
+						input.lastName, address: input.address, roleId: input.roleId, password: input.password,
+						confirmPassword: input.confirmPassword }; }%>
+						<form action="/api/users/register" method="POST">
+							<div class="mb-3">
+								<label for="firstName" class="form-label">Имя</label>
+								<input type="text" class="form-control" name="firstName" id="firstName"
+									value="<%= params.firstName %>" required>
+							</div>
+							<div class="mb-3">
+								<label for="lastName" class="form-label">Фамилия</label>
+								<input type="text" class="form-control" name="lastName" id="lastName"
+									value="<%= params.lastName %>" required>
+							</div>
+							<div class="mb-3">
+								<label for="address" class="form-label">Адрес</label>
+								<input type="text" class="form-control" name="address" id="address"
+									value="<%= params.address %>">
+							</div>
+							<div class="mb-3">
+								<label for="roles" class="form-label">Роль</label>
+								<select class="form-select" name="roleId" id="roles">
+									<% roles.forEach(function(role) { %>
+										<option value="<%= role.id %> " selected='<%=(role.id == params.roleId) %>'>
+											<%= role.role %>
+										</option>
+										<% }); %>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">Пароль</label>
+								<input type="password" class="form-control" name="password" id="password"
+									value="<%= params.password %>" required>
+							</div>
+							<div class="mb-3">
+								<label for="confirmPassword" class="form-label">Повторите пароль</label>
+								<input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+									value="<%= params.confirmPassword %>" required>
+							</div>
+							<button type="submit" class="btn btn-secondary">Создать</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<table class="table table-striped">
+			<thead>
+				<div class="mb-3">
+					<tr>
+						<th class="td-center" scope="col">#</th>
+						<th scope="col">Имя</th>
+						<th scope="col">Фамилия</th>
+						<th scope="col">Адрес</th>
+						<th scope="col">Роль</th>
+						<th scope="col">Штрафы</th>
+						<th scope="col">Удалить</th>
+					</tr>
+				</div>
+				</div>
+			</thead>
+			<tbody>
+				<% let i=1 %>
+					<% users.forEach((user) => { %>
+						<tr>
+							<td class="td-center">
+								<%= i++ %>
+									</th>
+							<td>
+								<%= user.firstName %>
+							</td>
+							<td>
+								<%= user.lastName %>
+							</td>
+							<td>
+								<%= user.address %>
+							</td>
+							<td>
+								<%= roles.find(x=> x.id === user.roleId).role %>
+							</td>
+							<td>
+								<% if (roles.find(x=> x.id === user.roleId).role !== 'администратор') { %>
+									<a href="/users/<%= user.id %>/penalties" class="btn btn-outline-secondary">Открыть штрафы</a>
+									<% } %>
+							</td>
+							<td>
+								<a href="/api/users/<%= user.id %>?_method=DELETE" class="btn btn-outline-secondary">Удалить</a>
+							</td>
+						</tr>
+						<% }); %>
+			</tbody>
+		</table>
+	</main>
+</body>
+
+</html>

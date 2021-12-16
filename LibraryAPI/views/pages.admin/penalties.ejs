@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <main class="pt-4">
+    <div class="fs-4 text-center">
+      Штрафы пользователя: <%= user.firstName + ' ' + user.lastName %>
+    </div>
+
+    <% if (penalties.length !== 0) { %>
+      <table class="table table-striped">
+        <thead>
+          <div class="mb-3">
+            <tr>
+              <th class="td-center" scope="col">#</th>
+              <th scope="col">Автор</th>
+              <th scope="col">Название</th>
+              <th scope="col">Общее время штрафов</th>
+              <th scope="col">Добавить штраф</th>
+              <th scope="col">Удалить все штрафы</th>
+            </tr>
+          </div>
+          </div>
+        </thead>
+        <tbody>
+          <% let i=1; 
+          penalties.forEach((penalty) => { 
+            %>
+            <tr>
+              <td class="td-center">
+                <%= i++ %>
+                  </th>
+              <td>
+                <%= penalty.logbook.book.author %>
+              </td>
+              <td>
+                <%= penalty.logbook.book.name %>
+              </td>
+              <td class="td-center">
+                <%= penalty.dataValues.total %>
+              </td>
+              <td>
+                <a href="/api/penalties/logbooks/<%= penalty.logbookId %>?_method=POST" class="btn btn-outline-secondary">Добавить</a>
+                <%#<button onclick="addPenalty('')" class="btn btn-outline-secondary">Добавить</button>%>
+              </td>
+              <td>
+                <a href="/api/penalties/logbooks/<%= penalty.logbookId %>?_method=DELETE" class="btn btn-outline-secondary">Удалить все</a>
+                <%#<button onclick="deletePenaltiesByLogbook('')" class="btn btn-outline-secondary">Удалить все</button>%>
+              </td>
+            </tr>
+            <% }); 
+          } else { %>
+            <div class="my-5 text-center">Нет штрафов</div>
+          <% } %>
+        </tbody>
+      </table>
+  </main>
+</body>
+</html>

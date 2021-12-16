@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <main>
+        <div class="filter d-flex">
+          <div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="types" id="all" value='0' <%=(filter.type == 0 ? 'checked' : '' ) %>>
+              <label class="form-check-label" for="all">
+                Все
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="types" id="free" value='1' <%=(filter.type == 1 ? 'checked' : '' ) %>>
+              <label class="form-check-label" for="free">
+                Свободные книги
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="types" id="current" value='2' <%=(filter.type == 2 ? 'checked' : '' ) %>>
+              <label class="form-check-label" for="current">
+                Мои книги
+              </label>
+            </div>
+
+          </div>
+          <div class='genres'>
+            <label for="genres" class="form-label">Жанры</label>
+            <select class="filter form-control me-2" name="genres" id="genres">
+              <option value="0" name="genres" <%=(filter.genre == 0 ? 'selected' : '' ) %>>
+                Все
+              </option>
+              <% genres.forEach(function(genre) { %>
+                <option value="<%= genre.id %>" name="genres" <%=(filter.genre == genre.id ? 'selected' : '' ) %>>
+                  <%= genre.genre %>
+                </option>
+                <% }); %>
+            </select>
+
+          </div>
+          <button class="btn btn-outline-secondary" onclick="filterBooks()">Фильтровать</button>
+        </div>
+
+      <div class="search d-flex">
+        <input class="search form-control me-2" id='searchBook' placeholder="Поиск" value=<%= search %> >
+        <button class="btn btn-outline-secondary" onclick="searchBooks()">Поиск</button>
+      </div>
+      </div>
+      <% if (books.length !==0) { %>
+      <table class="table table-striped library">
+        <thead>
+            <tr>
+              <th class="td-center" scope="col">#</th>
+              <th scope="col" onclick="sortTable('authorIcon', 1)">
+                Автор <i id='authorIcon' class="bi bi-sort-alpha-down"></i></th>
+              <th scope="col" onclick="sortTable('nameIcon', 2)">
+                Название <i id='nameIcon' class="bi bi-sort-alpha-down"></i></th>
+              <th scope="col">Только для чтения в читальном зале</th>
+              <th scope="col">Открыть</th>
+            </tr>
+        </thead>
+        <tbody id='libraryTableData'>
+          <% books.forEach(function(book) { %>
+            <tr>
+              <td class="td-center"></td>
+              <td>
+                <%= book.author %>
+                  <p>
+                    <%= book.isTranslated ? book.authorOriginal : '' %>
+                  </p>
+              </td>
+              <td>
+                <%= book.name %>
+                  <p>
+                    <%= book.isTranslated ? book.nameOriginal : '' %>
+                  </p>
+              </td>
+              <td class="td-center">
+                <i class="bi <%= book.isOnlyReadingRoom ? 'bi-plus-lg' : 'bi-dash-lg' %>"></i>
+              </td>
+              <td>
+                <a href="/books/<%= book.id %>" class="btn btn-outline-secondary">Открыть</a>
+              </td>
+            </tr>
+            <% }); } else { %>
+              <div class="library my-5 text-center">Нет книг</div>
+              <% } %>
+        </tbody>
+      </table>
+  </main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "123456789root!",
+        "database": "library"
+    },
+    "secret": "LIBRARY SECRET",
+    "usageTimeInSeconds" : 30,
+    "intervalOverdueInSeconds" : 60,
+    "penaltyDurationInSeconds" :  20
+}

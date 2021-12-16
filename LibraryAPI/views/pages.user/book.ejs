@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+  <main>
+    <div class="p-5 pt-4">
+      <p class="fs-3">
+        <%= book.author %><br />
+        <span class="fst-italic">
+          <%= book.isTranslated ? book.authorOriginal : '' %>
+        </span>
+      </p>
+
+      <p class="fs-3">
+        <%= book.name %><br />
+          <span class="fst-italic">
+            <%= book.isTranslated ? book.nameOriginal : '' %>
+          </span>
+      </p>
+      <p>
+        <% let genres='' ; book.bookgenres.forEach((bookgenre, index) => {
+          genres = genres + (index !==0 ? ', ' : '' ) + bookgenre.genre.genre;
+          }); %>
+          Жанры: <span class="text-lowercase"><%= genres %></span>
+      </p>
+      <p>
+        <%- book.annotation %>
+      </p>
+
+      <% if (isFreeBook) { %>
+      <% if (!book.isOnlyReadingRoom) { %>
+        <button onclick="location.href='/api/logbooks/books/<%= book.id %>/options/1?_method=POST'" 
+          class="btn btn-<%= hasPenalties ? '' : 'outline-' %>secondary" <%= hasPenalties ? 'disabled' : '' %>>Взять с собой</button>
+      <% } %>
+      <button onclick="location.href='/api/logbooks/books/<%= book.id %>/options/0?_method=POST'" 
+        class="btn btn-<%= hasPenalties ? '' : 'outline-' %>secondary" <%= hasPenalties ? 'disabled' : '' %>>Взять в читальный зал</button>
+      <% } else if (isCurrentBook) { %>
+        <a href="/api/logbooks/books/<%= book.id %>?_method=PUT" class="btn btn-outline-secondary">Вернуть</a>
+      <% } else { %>
+        <button class="btn btn-secondary" disabled>Уже взята</button>
+      <% } %>
+    </div>
+  </main>
+</body>
+</html>

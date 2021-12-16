@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  margin-top: 60px;
+}
+
+.login {
+  display: inline-grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+.form-login {
+  text-align: center;
+}
+
+.navbar {
+  padding: 10px;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #000;
+  background-color: #f9fafb;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+
+.accordion-body {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+textarea,
+input#annotaition {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.table > :not(:first-child) {
+  border-top-width: 1.5px;
+}
+
+tr {
+  vertical-align: baseline;
+}
+
+td {
+  vertical-align: middle;
+}
+
+th.td-center,
+td.td-center {
+  text-align: center;
+}
+
+.search.d-flex {
+  float: right;
+  margin-top: 50px;
+  margin-right: 20px;
+}
+
+.search.form-control {
+  width: auto;
+}
+
+.filter.d-flex {
+  width: max-content;
+  float: left;
+  margin-top: 10px;
+  margin-left: 20px;
+  align-items: end;
+}
+
+.filter.form-control {
+  width: auto;
+}
+
+.filter .btn {
+  height: fit-content;
+}
+
+.filter .genres {
+  margin-left: 10px;
+}
+
+table.library {
+  margin-top: 20px;
+  display: inline-table;
+}
+
+.library.my-5 {
+  display: inline-table;
+  padding: 65px;
+}
+
+.library th.td-center{
+  visibility: hidden;
+}
